@@ -2,7 +2,11 @@ package cl.citiaps.spring.backend.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -28,6 +32,11 @@ public class Actor implements Serializable {
 	@Column(name="last_update", nullable=false)
 	private Timestamp lastUpdate;
 
+	
+	@ManyToMany(cascade = {CascadeType.ALL},mappedBy="actors")
+	@JsonIgnore
+	private List<Film> films;
+	
 	public Actor() {
 	}
 
@@ -61,6 +70,9 @@ public class Actor implements Serializable {
 
 	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+	public List<Film> getFilms() {
+		return this.films;
 	}
 
 }

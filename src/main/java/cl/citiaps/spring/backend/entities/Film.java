@@ -2,6 +2,9 @@ package cl.citiaps.spring.backend.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,7 +35,8 @@ public class Film implements Serializable {
 	@Column(name="last_update", nullable=false)
 	private Timestamp lastUpdate;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JsonIgnore
 	 @JoinTable(
 	      name="film_actor",
 	      joinColumns=@JoinColumn(name="film_id", referencedColumnName="film_id"),
