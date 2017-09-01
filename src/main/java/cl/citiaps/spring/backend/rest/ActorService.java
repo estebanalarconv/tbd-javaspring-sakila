@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.citiaps.spring.backend.entities.Actor;
 import cl.citiaps.spring.backend.entities.Film;
 import cl.citiaps.spring.backend.repository.ActorRepository;
+import cl.citiaps.spring.backend.repository.FilmRepository;
 
 @RestController  
 @RequestMapping("/actors")
@@ -23,6 +24,8 @@ public class ActorService {
 	public Actor actor;
 	@Autowired
 	private ActorRepository actorRepository;
+	@Autowired
+	private FilmRepository filmRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
@@ -54,4 +57,23 @@ public class ActorService {
         	return new ResponseEntity<List<Film>>(HttpStatus.NOT_FOUND);
         }		
     }
+	
+	@RequestMapping(value = "/{actor_id}/films/{film_id}",method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public Film create(@PathVariable("actor_id") Integer actor_id, @PathVariable("film_id") Integer film_id) {
+		
+		Actor actor = actorRepository.findOne(actor_id);
+		Film film = filmRepository.findOne(film_id);
+		List <Film> films= actor.getFilms();
+		List <Actor> actors = film.getActors();
+		actors.add(actor);
+		films.add(film);
+		actor.setFilms(films);
+		film.setActors(actors);
+		actorRepository.save(actor);
+		return filmRepository.save(film);
+		
+		
+	}
 }

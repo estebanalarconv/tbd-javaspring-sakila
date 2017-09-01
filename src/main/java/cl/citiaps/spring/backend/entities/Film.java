@@ -90,5 +90,10 @@ public class Film implements Serializable {
 	public List<Actor> getActors() {
 		return this.actors;
 	}
+	
+	public void setActors(List<Actor> actors)
+	{
+		this.actors = actors;
+	}
 
 }

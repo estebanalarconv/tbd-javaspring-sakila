@@ -74,5 +74,9 @@ public class Actor implements Serializable {
 	public List<Film> getFilms() {
 		return this.films;
 	}
+	public void setFilms(List<Film> films)
+	{
+		this.films = films;
+	}
 
 }
