@@ -63,18 +63,23 @@ public class FilmService {
 	@RequestMapping(value = "/{film_id}/actors/{actor_id}",method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public Actor create(@PathVariable("actor_id") Integer actor_id, @PathVariable("film_id") Integer film_id) {
+	public ResponseEntity<Actor> create(@PathVariable("actor_id") Integer actor_id, @PathVariable("film_id") Integer film_id) {
 		
-		Actor actor = actorRepository.findOne(actor_id);
-		Film film = filmRepository.findOne(film_id);
-		List <Film> films= actor.getFilms();
-		List <Actor> actors = film.getActors();
-		actors.add(actor);
-		films.add(film);
-		actor.setFilms(films);
-		film.setActors(actors);
-		filmRepository.save(film);
-		return actorRepository.save(actor);
+		if(actorRepository.exists(actor_id) && filmRepository.exists(film_id)){
+			Actor actor = actorRepository.findOne(actor_id);
+			Film film = filmRepository.findOne(film_id);
+			List <Film> films= actor.getFilms();
+			List <Actor> actors = film.getActors();
+			actors.add(actor);
+			films.add(film);
+			actor.setFilms(films);
+			film.setActors(actors);
+			filmRepository.save(film);
+			return new ResponseEntity<Actor>(actorRepository.save(actor), HttpStatus.OK);
+		}
+		else{
+			return new ResponseEntity<Actor>(HttpStatus.NOT_FOUND);
+		}
 		
 	}
 	 
