@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,15 @@ public class ActorService {
 	     return actorRepository.save(resource);
 	}
 	
+	
 	@RequestMapping(value = "/{id}/films", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Film> getFilms(@PathVariable("id") Integer id){
-		this.actor=actorRepository.findOne(id);
-		return actor.getFilms();
-	}
+    public ResponseEntity<List<Film>> getFilm(@PathVariable("id") Integer id){
+        if (actorRepository.exists(id)){
+        	List<Film> films = actorRepository.findOne(id).getFilms();
+        	return new ResponseEntity<List<Film>>(films, HttpStatus.OK);
+        }else{
+        	return new ResponseEntity<List<Film>>(HttpStatus.NOT_FOUND);
+        }		
+    }
 }
