@@ -22,7 +22,7 @@ bootRun {
 }
 
 jar {
-    baseName = 'sakila-spring-backend'
+    baseName = 'tbd-tweeds-backend'
     version = '1.0'
 }
 
@@ -36,9 +36,18 @@ targetCompatibility = 1.8
 dependencies {
 	// Use MySQL Connector-J
     compile 'mysql:mysql-connector-java'
+    compile group: 'org.twitter4j', name: 'twitter4j-stream', version: '4.0.5'
+	compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.5'
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile 'org.mongodb:mongo-java-driver:3.5.0'
+	compile 'org.mongodb:bson:3.5.0'
+	compile 'org.apache.lucene:lucene-core:7.0.0'
+	compile 'org.apache.lucene:lucene-demo:7.0.0'
+	compile 'org.apache.lucene:lucene-analyzers-common:7.0.0'
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-test")
     compile("org.springframework.boot:spring-boot-starter-web")
     runtime("org.springframework.boot:spring-boot-starter-tomcat")
+    
 }
